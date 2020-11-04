@@ -1,3 +1,3 @@
 # lscustoms
  
-made by [MythicalBro]()http://mythicalbro.com/
+made by [MythicalBro](http://mythicalbro.com)
