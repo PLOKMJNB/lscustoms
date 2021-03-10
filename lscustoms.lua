@@ -626,7 +626,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 		--If you are not already in garage
-		if inside == false then
+		if not inside then
 			local ped = LocalPed()
 			--Well... yes... we actually need a car to do something
 			if IsPedSittingInAnyVehicle(ped) then
@@ -1093,7 +1093,7 @@ function CheckPurchases(m)
 				if b.purchased and b.colorindex ~= myveh.color[1] then
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
-				elseif b.purchased == false and b.colorindex == myveh.color[1] then
+				elseif not b.purchased and b.colorindex == myveh.color[1] then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
 				end
@@ -1103,7 +1103,7 @@ function CheckPurchases(m)
 				if b.purchased and (b.colorindex ~= myveh.color[1] or myveh.extracolor[1] ~= myveh.color[2]) then
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
-				elseif b.purchased == false and b.colorindex == myveh.color[1] and myveh.extracolor[1] == myveh.color[2] then
+				elseif not b.purchased and b.colorindex == myveh.color[1] and myveh.extracolor[1] == myveh.color[2] then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
 				end
@@ -1115,7 +1115,7 @@ function CheckPurchases(m)
 				if b.purchased and b.colorindex ~= myveh.color[1] then
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
-				elseif b.purchased == false and b.colorindex == myveh.color[1] then
+				elseif not b.purchased and b.colorindex == myveh.color[1] then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
 				end
@@ -1125,7 +1125,7 @@ function CheckPurchases(m)
 				if b.purchased and (b.colorindex ~= myveh.color[2] or myveh.extracolor[1] ~= b.colorindex) then
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
-				elseif b.purchased == false and b.colorindex == myveh.color[2] and myveh.extracolor[1] == b.colorindex then
+				elseif not b.purchased and b.colorindex == myveh.color[2] and myveh.extracolor[1] == b.colorindex then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
 				end
@@ -1141,7 +1141,7 @@ function CheckPurchases(m)
 					if b.purchased ~= nil then b.purchased = false end
 					b.sprite = nil
 				end
-			elseif b.mod == 0 or b.mod == false then
+			elseif b.mod == 0 or not b.mod then
 				if myveh.mods[b.modtype].mod == false or myveh.mods[b.modtype].mod == 0 then
 					if b.purchased ~= nil then b.purchased = true end
 					b.sprite = "garage"
@@ -1162,7 +1162,7 @@ function CheckPurchases(m)
 	elseif name == "neon layout" then
 		for i,b in pairs(m.buttons) do
 			if b.name == "None" then
-				if IsVehicleNeonLightEnabled(myveh.vehicle, 0) == false and IsVehicleNeonLightEnabled(myveh.vehicle, 1) == false  and IsVehicleNeonLightEnabled(myveh.vehicle, 2) == false and IsVehicleNeonLightEnabled(myveh.vehicle, 3) == false then
+				if not IsVehicleNeonLightEnabled(myveh.vehicle, 0) and not IsVehicleNeonLightEnabled(myveh.vehicle, 1)  and IsVehicleNeonLightEnabled(myveh.vehicle, 2) == false and IsVehicleNeonLightEnabled(myveh.vehicle, 3) == false then
 					b.sprite = "garage"
 				else
 					b.sprite =  nil
@@ -1392,11 +1392,12 @@ end
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		local wait = 500
 		if inside then
 			SetLocalPlayerVisibleLocally(1)
 		end
 		if LSCMenu:isVisible() then
+			wait = 0
 			DrawIbuttons()--Draw the scaleform if menu is visible
 			if IsDisabledControlJustPressed(1,0) or IsControlJustPressed(1,0) then -- V
 				if cam and IsCamActive(cam) then --If the script cam is active then we can change back to gameplay cam
@@ -1418,6 +1419,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
+		Citizen.Wait(wait)
 	end
 end)
 
